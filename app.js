@@ -10,7 +10,7 @@ var express = require('express'),
 //DB Config
 var config = {
   user: 'luis', //env var: PGUSER
-  database: 'recipebook', //env var: PGDATABASE
+  database: 'recipebookdb', //env var: PGDATABASE
   password: 'jun10r421', //env var: PGPASSWORD
   host: 'localhost', // Server hosting the postgres database
   port: 5432, //env var: PGPORT
@@ -32,12 +32,64 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 
+
+
 app.get('/', function(req, res){
-	res.render('index');
+	var pool = new pg.Pool(config);
+	pool.connect(function(err, client, done){
+		if(err){
+			return console.error('error fetching client from pool', err);
+		}
+		client.query('SELECT * FROM recipes', function(err, result){
+			if(err){
+				return console.error('error running query', err);
+			}
+			res.render('index', {recipes: result.rows});
+			done();
+		});
+	});
 });
 
-app.get('/layout', function(req, res){
-	res.render('layout');
+app.post('/add', function(req, res){
+	var pool = new pg.Pool(config);
+	pool.connect(function(err, client, done){
+		if(err){
+			return console.error('error fetching client from pool', err);
+		}
+		client.query("INSERT INTO recipes(name, ingredients, directions) VALUES ($1, $2, $3)", 
+			[req.body.name, req.body.ingredients, req.body.directions]);
+		
+		done();
+		res.redirect('/');
+	});
+});
+
+app.delete('/delete/:id', function(req, res){
+	var pool = new pg.Pool(config);
+	pool.connect(function(err, client, done){
+		if(err){
+			return console.error('error fetching client from pool', err);
+		}
+		client.query("DELETE FROM recipes WHERE id = $1", 
+			[req.params.id]);
+		
+		done();
+		res.sendStatus(200);
+	});
+});
+
+app.post('/edit', function(req, res){
+	var pool = new pg.Pool(config);
+	pool.connect(function(err, client, done){
+		if(err){
+			return console.error('error fetching client from pool', err);
+		}
+		client.query("UPDATE recipes SET name = $1, ingredients = $2, directions = $3 WHERE id = $4", 
+			[req.body.name, req.body.ingredients, req.body.directions, req.body.id]);
+		
+		done();
+		res.redirect('/');
+	});
 });
 
 // Server

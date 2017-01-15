@@ -16,6 +16,7 @@
     "dustjs-helpers": "^1.7.3",
     "dustjs-linkedin": "^2.7.5",
     "express": "^4.14.0",
+    "nodemon": "^1.11.0",
     "pg": "^6.1.2"
   }
 }

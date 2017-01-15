@@ -6,7 +6,15 @@
 	<link rel="stylesheet" type="text/css" href="/css/style.css">
 </head>
 <body>
-	{+body /}
+	<div class="container">
+		<div class="row">
+			<div class="col-md-offset-2 col-md-7">
+				{+body /}
+			</div>
+		</div>
+	</div>
+	<script src="/jquery/dist/jquery.js"></script>
 	<script src="/bootstrap/dist/js/bootstrap.js"></script>
+	<script src="/js/main.js"></script>
 </body>
 </html>
