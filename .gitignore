@@ -1,2 +1,3 @@
-nodemodules/
-public/bootstrap/
+node_modules/
+/public/bootstrap
+/public/jquery
