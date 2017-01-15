@@ -1,0 +1,20 @@
+{
+  "name": "recipebook",
+  "description": "Recipe Manager",
+  "main": "app.js",
+  "authors": [
+    "Luis Carvalho"
+  ],
+  "license": "ISC",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "^3.3.7"
+  }
+}
